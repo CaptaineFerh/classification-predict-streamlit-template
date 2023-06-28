@@ -20,11 +20,11 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Load the news_vectorizer
-with open("/home/explore-student/news_vectorizer.pkl", "rb") as f:
+with open("/home/explore-student/count_vectorizer.pkl", "rb") as f:
     news_vectorizer = pickle.load(f)
 
 # Load the trained model
-with open("/home/explore-student/my_model.pkl", "rb") as f:
+with open("/home/explore-student/my_model.pkl/my_model.pkl", "rb") as f:
     model = pickle.load(f)
 
 # Define Preprocessing
