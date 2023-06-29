@@ -24,7 +24,7 @@ with open("/home/explore-student/classification-predict-streamlit-template/count
     news_vectorizer = pickle.load(f)
 
 # Load the trained model
-with open("/home/explore-student/classification-predict-streamlit-template/my_model.pkl", "rb") as f:
+with open("/home/explore-student/classification-predict-streamlit-template/trained_model.pkl", "rb") as f:
     model = pickle.load(f)
 
 # Define Preprocessing
