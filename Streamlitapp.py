@@ -20,11 +20,11 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Load the news_vectorizer
-with open("/home/explore-student/count_vectorizer.pkl", "rb") as f:
+with open("/home/explore-student/classification-predict-streamlit-template/count_vectorizer.pkl", "rb") as f:
     news_vectorizer = pickle.load(f)
 
 # Load the trained model
-with open("/home/explore-student/my_model.pkl", "rb") as f:
+with open("/home/explore-student/classification-predict-streamlit-template/my_model.pkl", "rb") as f:
     model = pickle.load(f)
 
 # Define Preprocessing
@@ -86,7 +86,7 @@ def preprocess_lemmatization(tokens):
     text = ' '.join(lemmatized_tokens)
     return text
 
-# Classification algorithm
+# Modify the classify_message function to use the same vectorizer
 def classify_message(message):
     # Preprocess the message
     message = preprocess_lower(message)
@@ -99,15 +99,13 @@ def classify_message(message):
     tokens = preprocess_tokenization(message)
     message = preprocess_lemmatization(tokens)
 
-    # Vectorize the message
+    # Vectorize the message using the loaded vectorizer
     vectorized_message = news_vectorizer.transform([message])
 
     # Make predictions
     predicted_class = model.predict(vectorized_message)[0]
 
     return predicted_class
-
-
 
 class _SessionState:
     def __init__(self):
@@ -324,7 +322,6 @@ st.image("https://drive.google.com/uc?id=1EZ9SK1aBZzS6r7drXdjmoAvfwE4NcHmz", use
 message_input = st.empty()
 default_text = "Enter a message"
 message_value = message_input.text_input(label='Enter a message', value='', key='message_input')
-
 
 # Initialize classification result variable
 classification_result = ""
