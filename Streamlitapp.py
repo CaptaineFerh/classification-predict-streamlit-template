@@ -318,35 +318,83 @@ if col5.button("Privacy"):
 # Add an engaging visual element as the background
 st.image("https://drive.google.com/uc?id=1EZ9SK1aBZzS6r7drXdjmoAvfwE4NcHmz", use_column_width=True)
 
-# Option to enter a message
-message_input = st.empty()
-default_text = "Enter a message"
-message_value = message_input.text_input(label='Enter a message', value='', key='message_input')
+# Streamlit app code
+def main():
+    st.title("Sentiment Classification")
+    
+    # Option to enter a message
+    message_input = st.empty()
+    default_text = "Enter a message"
+    message_value = message_input.text_input(label='Enter a message', value='', key='message_input')
 
-# Initialize classification result variable
-classification_result = ""
+    # Initialize classification result variable
+    classification_result = ""
 
-# Classify a single message
-if st.button("Classify Message"):
+    # Classify a single message
+    if st.button("Classify Message"):
+        if message_value and message_value != default_text:
+            # Predict the classification
+            prediction = classify_message(message_value)
+
+            # Map the prediction to the corresponding class label
+            if prediction == 1:
+                classification_result = "Belief"
+            elif prediction == -1:
+                classification_result = "No Belief"
+            elif prediction == 0:
+                classification_result = "Neutral"
+            elif prediction == 2:
+                classification_result = "News"
+
+            st.write("Prediction:", classification_result)
+    
+    # Preprocessing step
     if message_value and message_value != default_text:
-        # Predict the classification
-        prediction = classify_message(message_value)
+        st.subheader("Preprocessing")
+        st.write("Original message:", message_value)
+        
+        # Convert text to lowercase
+        message = preprocess_lower(message_value)
+        st.write("Lowercase:", message)
+        
+        # Remove stopwords
+        message = remove_stopwords(message)
+        st.write("Stopwords removed:", message)
+        
+        # Remove punctuation
+        message = remove_punctuation(message)
+        st.write("Punctuation removed:", message)
+        
+        # Remove repeating characters
+        message = remove_repeating_characters(message)
+        st.write("Repeating characters removed:", message)
+        
+        # Remove URLs
+        message = remove_urls(message)
+        st.write("URLs removed:", message)
+        
+        # Preprocess special characters
+        message = preprocess_special_chars(message)
+        st.write("Special characters preprocessed:", message)
+        
+        # Remove leading and trailing whitespaces
+        message = preprocess_strip(message)
+        st.write("Whitespaces removed:", message)
+        
+        # Tokenize the text
+        tokens = preprocess_tokenization(message)
+        st.write("Tokens:", tokens)
+        
+        # Lemmatize the tokens
+        lemmatized_text = preprocess_lemmatization(tokens)
+        st.write("Lemmatized text:", lemmatized_text)
 
-        # Map the prediction to the corresponding class label
-        if prediction == 1:
-            classification_result = "Belief"
-        elif prediction == -1:
-            classification_result = "No Belief"
-        elif prediction == 0:
-            classification_result = "Neutral"
-        elif prediction == 2:
-            classification_result = "News"
+    # Display the classification result
+    st.subheader("Classification Result")
+    st.write("The message is classified as:", classification_result)
 
-        st.write("Prediction:", classification_result)
-
-# Display the classification result
-st.subheader("Classification Result")
-st.write("The message is classified as:", classification_result)
+if __name__ == "__main__":
+    main()
 
 # Option to upload a CSV file
 csv_file = st.file_uploader("Upload a CSV file")
@@ -358,11 +406,69 @@ if st.button("Classify CSV"):
         messages = df["message"]
 
         st.write("Classifying messages...")
+        
         # Preprocess the messages if needed
-        preprocessed_messages = [classify_message(msg) for msg in messages]
+        preprocessed_messages = []
+        
+        for msg in messages:
+            st.subheader("Preprocessing")
+            st.write("Original message:", msg)
 
+            # Convert text to lowercase
+            message = preprocess_lower(msg)
+            st.write("Lowercase:", message)
+
+            # Remove stopwords
+            message = remove_stopwords(message)
+            st.write("Stopwords removed:", message)
+
+            # Remove punctuation
+            message = remove_punctuation(message)
+            st.write("Punctuation removed:", message)
+
+            # Remove repeating characters
+            message = remove_repeating_characters(message)
+            st.write("Repeating characters removed:", message)
+
+            # Remove URLs
+            message = remove_urls(message)
+            st.write("URLs removed:", message)
+
+            # Preprocess special characters
+            message = preprocess_special_chars(message)
+            st.write("Special characters preprocessed:", message)
+
+            # Remove leading and trailing whitespaces
+            message = preprocess_strip(message)
+            st.write("Whitespaces removed:", message)
+
+            # Tokenize the text
+            tokens = preprocess_tokenization(message)
+            st.write("Tokens:", tokens)
+
+            # Lemmatize the tokens
+            lemmatized_text = preprocess_lemmatization(tokens)
+            st.write("Lemmatized text:", lemmatized_text)
+
+            # Classify the preprocessed message
+            prediction = classify_message(lemmatized_text)
+            preprocessed_messages.append(prediction)
+
+            st.subheader("Classification Result")
+            if prediction == 1:
+                classification_result = "Belief"
+            elif prediction == -1:
+                classification_result = "No Belief"
+            elif prediction == 0:
+                classification_result = "Neutral"
+            elif prediction == 2:
+                classification_result = "News"
+            st.write("The message is classified as:", classification_result)
+            st.write("---")
+        
         # Map the predictions to the corresponding class labels
         class_labels = []
+
         for prediction in preprocessed_messages:
             if prediction == 1:
                 class_labels.append("Belief")
@@ -388,23 +494,23 @@ if st.button("Classify CSV"):
             plt.title("Distribution of Message Classifications")
             st.pyplot()
 
+        # Option to export classification results
+        if st.button("Export Results"):
+            # Export the classification results to a CSV file
+            df.to_csv("classification_results.csv", index=False)
+
+            # Generate a download button for the exported file
+            with open("classification_results.csv", "rb") as file:
+                data = file.read()
+            b64 = base64.b64encode(data).decode('utf-8')
+            href = f'<a href="data:file/csv;base64,{b64}" download="classification_results.csv"><button>Download Results</button></a>'
+            st.markdown(href, unsafe_allow_html=True)
+            st.success("Classification results exported successfully!")
+
 # Display the classification result
 st.subheader("Classification Result")
 st.write("The message is classified as:", classification_result)
 
-# Option to export classification results
-if st.button("Export Results"):
-    if csv_file is not None:
-        # Export the classification results to a CSV file
-        df.to_csv("classification_results.csv", index=False)
-        
-        # Generate a download button for the exported file
-        with open("classification_results.csv", "rb") as file:
-            data = file.read()
-        b64 = base64.b64encode(data).decode('utf-8')
-        href = f'<a href="data:file/csv;base64,{b64}" download="classification_results.csv"><button>Download Results</button></a>'
-        st.markdown(href, unsafe_allow_html=True)
-        st.success("Classification results exported successfully!")
 
 # Display expander for "Our Team"
 if st.sidebar.button("Our Team", key="our_team_button"):
