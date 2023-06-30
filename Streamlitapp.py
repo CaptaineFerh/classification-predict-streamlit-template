@@ -214,6 +214,19 @@ st.markdown(custom_styles, unsafe_allow_html=True)
 # Add a catchy headline
 st.header("WeatherHub")
 
+# Add custom CSS for button styling
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        width: 100%;
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Create a horizontal layout for the buttons
 col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -241,13 +254,8 @@ if col2.button("Help"):
         download_link = '[Download User Manual](https://www.manual@weatherhub.com/user_manual.pdf)'
         st.markdown(download_link, unsafe_allow_html=True)
 
-# Display button for "About Us"
-if col3.button("About Us"):
-    with st.expander("Here at WeatherHub"):
-        st.write("At WeatherHub, we are a passionate team dedicated to providing cutting-edge solutions for companies seeking to unlock future success through climate intelligence. With a deep understanding of the impact weather patterns have on consumer behavior, market trends, and strategic decision-making, we are here to help businesses make informed choices that drive growth and profitability.")
-
 # Display button for "FAQs"
-if col4.button("FAQs"):
+if col3.button("FAQs"):
     faqs = [
         {
             "question": "What is the purpose of this website?",
@@ -280,7 +288,7 @@ if col4.button("FAQs"):
             st.write(faq["answer"])
 
 # Display dropdown for "Privacy and Security"
-if col5.button("Privacy"):
+if col4.button("Privacy"):
     with st.expander("Priority"):
         st.write("At WeatherHub, we prioritize the privacy and security of our users' data. This privacy statement outlines how we handle and protect the information collected through this application.")
         
@@ -315,6 +323,41 @@ if col5.button("Privacy"):
         st.write("If you have any concerns or questions regarding the privacy and security of your data, please contact us for assistance.")
 
 
+# Column 5 - Exploratory Data Analysis
+if col5.button("EDA"):
+    # Title 1: Case Study: Tweet Data Analysis
+    with st.expander("Case Study: Tweet Data Analysis"):
+        st.write("We use Tweet Data as a case study to train different models that are used to build WeatherHub. From the trained models, we select the best performing one. The models utilized include Logistic Regression, Support Vector Machine, K Nearest Neighbours, and Random Forest.")
+
+    # Title 2: Insights
+    with st.expander("Insights"):
+        st.write("The incredible insights we gather from the data help us train our models for real-life scenarios.")
+
+    # Title 3: Train Data Information
+    with st.expander("Train Data Information"):
+        st.image("https://drive.google.com/uc?id=1xj9ku3rP-SWPTDwKo-qPxk6lD9UduHAg", use_column_width=True)
+
+    # Title 4: Sentiment Class Distribution
+    with st.expander("Sentiment Class Distribution"):
+        st.image("https://drive.google.com/uc?id=1V_bUjJhAiFg73_qHalPTEd-eLITPFsLX", use_column_width=True)
+
+    # Title 5: Frequent Words Visualization
+    with st.expander("Frequent Words Visualization"):
+        st.image("https://drive.google.com/uc?id=1KgzXdbEjtc5BP_Jvh2zpadI0spedzz_b", use_column_width=True)
+
+    # Title 6: Top 20 Frequent Words
+    with st.expander("Top 20 Frequent Words"):
+        st.image("https://drive.google.com/uc?id=1gOPsD_M72M6jaCRe_LGep9wc1TxRW-xF", use_column_width=True)
+
+    # Title 7: Top 20 Frequent Phrase
+    with st.expander("Top 20 Frequent Phrase"):
+        st.image("https://drive.google.com/uc?id=1c9vXqXPnpRv9ez2hMHM9-Ne4-TUyqFX0", use_column_width=True)
+
+    # Title 8: Top 20 Important Words (M.I)
+    with st.expander("Top 20 Important Words (M.I)"):
+        st.image("https://drive.google.com/uc?id=15J5rPfA_kJkkKrv9cP1bMj3MShEsJjaZ", use_column_width=True)
+
+
 # Add an engaging visual element as the background
 st.image("https://drive.google.com/uc?id=1EZ9SK1aBZzS6r7drXdjmoAvfwE4NcHmz", use_column_width=True)
 
@@ -345,196 +388,108 @@ def main():
                 classification_result = "Neutral"
             elif prediction == 2:
                 classification_result = "News"
-    
-    # Preprocessing step
-    if message_value and message_value != default_text:
-        st.subheader("Preprocessing...")
-        st.write("<span style='color:gold'>*Original message:*</span>", message_value, unsafe_allow_html=True)
-        
-        # Convert text to lowercase
-        message = preprocess_lower(message_value)
-        st.write("<span style='color:gold'>*Lowercase:*</span>", message, unsafe_allow_html=True)
-        
-        # Remove stopwords
-        message = remove_stopwords(message)
-        st.write("<span style='color:gold'>*Stopwords removed:*</span>", message, unsafe_allow_html=True)
-        
-        # Remove punctuation
-        message = remove_punctuation(message)
-        st.write("<span style='color:gold'>*Punctuation removed:*</span>", message, unsafe_allow_html=True)
-        
-        # Remove repeating characters
-        message = remove_repeating_characters(message)
-        st.write("<span style='color:gold'>*Repeating characters removed:*</span>", message, unsafe_allow_html=True)
-        
-        # Remove URLs
-        message = remove_urls(message)
-        st.write("<span style='color:gold'>*URLs removed:*</span>", message, unsafe_allow_html=True)
-        
-        # Preprocess special characters
-        message = preprocess_special_chars(message)
-        st.write("<span style='color:gold'>*Special characters preprocessed:*</span>", message, unsafe_allow_html=True)
-        
-        # Remove leading and trailing whitespaces
-        message = preprocess_strip(message)
-        st.write("<span style='color:gold'>*Whitespaces removed:*</span>", message, unsafe_allow_html=True)
-        
-        # Tokenize the text
-        tokens = preprocess_tokenization(message)
-        st.write("<span style='color:gold'>*Tokens:*</span>", tokens, unsafe_allow_html=True)
-        
-        # Lemmatize the tokens
-        lemmatized_text = preprocess_lemmatization(tokens)
-        st.write("<span style='color:gold'>*Lemmatized text:*</span>", lemmatized_text, unsafe_allow_html=True)
-
 
     # Display the classification result
     st.subheader("Classification Result")
     st.markdown('<span style="font-family: Arial; color: silver; font-size: 16px; text-shadow: 2px 2px 2px purple;">The message is classified as: <span style="color: white;">{}</span></span>'.format(classification_result), unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    main()
+# Streamlit app code
+def main():
+    st.title("Sentiment Classification")
+    
+    # Option to enter a message
+    message_input = st.empty()
+    default_text = "Enter a message"
+    message_value = message_input.text_input(label='Enter a message', value='', key='message_input')
 
-# Option to upload a CSV file
-csv_file = st.file_uploader("Upload a CSV file")
+    # Initialize classification result variable
+    classification_result = ""
 
-# Classify messages in a CSV file
-if st.button("Classify CSV"):
-    if csv_file is not None:
-        df = pd.read_csv(csv_file)
-        messages = df["message"]
+    # Classify a single message
+    if st.button("Classify Message"):
+        if message_value and message_value != default_text:
+            # Predict the classification
+            prediction = classify_message(message_value)
 
-        st.write("Classifying messages...")
-        
-        # Preprocess the messages if needed
-        preprocessed_messages = []
-        classification_result = []  # Initialize an empty list
-        
-        for msg in messages:
-            st.subheader("Preprocessing")
-            st.write("Original message:", msg)
-
-            # Convert text to lowercase
-            message = preprocess_lower(msg)
-            st.write("Lowercase:", message)
-
-            # Remove stopwords
-            message = remove_stopwords(message)
-            st.write("Stopwords removed:", message)
-
-            # Remove punctuation
-            message = remove_punctuation(message)
-            st.write("Punctuation removed:", message)
-
-            # Remove repeating characters
-            message = remove_repeating_characters(message)
-            st.write("Repeating characters removed:", message)
-
-            # Remove URLs
-            message = remove_urls(message)
-            st.write("URLs removed:", message)
-
-            # Preprocess special characters
-            message = preprocess_special_chars(message)
-            st.write("Special characters preprocessed:", message)
-
-            # Remove leading and trailing whitespaces
-            message = preprocess_strip(message)
-            st.write("Whitespaces removed:", message)
-
-            # Tokenize the text
-            tokens = preprocess_tokenization(message)
-            st.write("Tokens:", tokens)
-
-            # Lemmatize the tokens
-            lemmatized_text = preprocess_lemmatization(tokens)
-            st.write("Lemmatized text:", lemmatized_text)
-
-            # Classify the preprocessed message
-            prediction = classify_message(lemmatized_text)
-            preprocessed_messages.append(prediction)
-
+            # Map the prediction to the corresponding class label
             if prediction == 1:
-                classification_result.append("Belief")  # Append the classification to the list
+                classification_result = "Belief"
             elif prediction == -1:
-                classification_result.append("No Belief")
+                classification_result = "No Belief"
             elif prediction == 0:
-                classification_result.append("Neutral")
+                classification_result = "Neutral"
             elif prediction == 2:
-                classification_result.append("News")
+                classification_result = "News"
 
-        st.write("Classification results:")
-        st.dataframe(df)
-
-        # Display a bar chart of the classification results if there are multiple messages
-        if len(df) > 1:
-            st.subheader("Classification Distribution")
-            count_values = df["classification"].value_counts()
-            plt.bar(count_values.index, count_values.values)
-            plt.xlabel("Classification")
-            plt.ylabel("Count")
-            plt.title("Distribution of Message Classifications")
-            st.pyplot()
-
-        # Option to export classification results
-        if st.button("Export Results"):
-            # Export the classification results to a CSV file
-            df.to_csv("classification_results.csv", index=False)
-
-            # Generate a download button for the exported file
-            with open("classification_results.csv", "rb") as file:
-                data = file.read()
-            b64 = base64.b64encode(data).decode('utf-8')
-            href = f'<a href="data:file/csv;base64,{b64}" download="classification_results.csv"><button>Download Results</button></a>'
-            st.markdown(href, unsafe_allow_html=True)
-            st.success("Classification results exported successfully!")
-            
     # Display the classification result
     st.subheader("Classification Result")
-    if classification_result:
-        st.write("The message is classified as:", ", ".join(classification_result))
-        
+    st.markdown('<span style="font-family: Arial; color: silver; font-size: 16px; text-shadow: 2px 2px 2px purple;">The message is classified as: <span style="color: white;">{}</span></span>'.format(classification_result), unsafe_allow_html=True)
 
-# Display expander for "Our Team"
-if st.sidebar.button("Our Team", key="our_team_button"):
-    # Display our team section content
-    team_members = [
-        {
-            "name": "Abiodun Adeagbo - CEO",
-            "image_url": "https://drive.google.com/uc?id=1gOmV3fVHgmZ1UfRxbiuGeKovnB87Ud5d",
-        },
-        {
-            "name": "Sandisiwe Mtsha - CTO",
-            "image_url": "https://drive.google.com/uc?id=1y1cBIbUcCaTl7hm6zXMz5FYvJ5Sp0sUK"
-        },
-        {
-            "name": "Andisiwe Jafta - Climate Visionary",
-            "image_url": "https://drive.google.com/uc?id=1NdID53xKtPdpdO6db9M0_oytuZhdH3PR"
-        },
-        {
-            "name": "Pere Ganranwei - Climate Research Expert",
-            "image_url": "https://drive.google.com/uc?id=1glHkFxTxuwaOBQwzRqB0WoZYQsv15_Qx",
-        },
-        {
-            "name": "Lerato Manana - Data Specialist",
-            "image_url": "https://drive.google.com/uc?id=196SLPJi3jTSQe32LlXjTm-kAJ3-dshFH",
-        },
-        {
-            "name": "Kolawole Olawale - Software Engineer",
-            "image_url": "https://drive.google.com/uc?id=1ptZ3j5p_Ps1VcpOrtBaTVE6THpvvosEU",
-        }
-    ]
+    # Option to upload a CSV file
+    csv_file = st.file_uploader("Upload a CSV file")
 
-    for member in team_members:
-        st.sidebar.write(
-            "<div style='display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 20px;'>"
-            "<div style='margin-bottom: 10px;'>"
-            f"<img src='{member['image_url']}' style='width: 150px;'>"
-            "</div>"
-            f"<div style='font-size: 14px; font-weight: bold; margin-top: 0;'>{member['name']}</div>"
-            "</div>",
-            unsafe_allow_html=True
-        )
+    # Classify messages in a CSV file
+    if st.button("Classify CSV"):
+        if csv_file is not None:
+            df = pd.read_csv(csv_file)
+            messages = df["message"]
+
+            st.write("Classifying messages...")
+
+            # Preprocess the messages if needed
+            preprocessed_messages = []
+            classification_result = []  # Initialize an empty list
+
+            for message in messages:
+                # Preprocess the message
+                preprocessed_message = preprocess_message(message)
+                preprocessed_messages.append(preprocessed_message)
+
+                # Classify the preprocessed message
+                prediction = classify_message(preprocessed_message)
+
+                if prediction == 1:
+                    classification_result.append("Belief")  # Append the classification to the list
+                elif prediction == -1:
+                    classification_result.append("No Belief")
+                elif prediction == 0:
+                    classification_result.append("Neutral")
+                elif prediction == 2:
+                    classification_result.append("News")
+
+            st.write("Classification results:")
+            st.dataframe(df)
+
+            # Display a bar chart of the classification results if there are multiple messages
+            if len(df) > 1:
+                st.subheader("Classification Distribution")
+                count_values = df["classification"].value_counts()
+                plt.bar(count_values.index, count_values.values)
+                plt.xlabel("Classification")
+                plt.ylabel("Count")
+                plt.title("Distribution of Message Classifications")
+                st.pyplot()
+
+            # Option to export classification results
+            if st.button("Export Results"):
+                # Export the classification results to a CSV file
+                df.to_csv("classification_results.csv", index=False)
+
+                # Generate a download button for the exported file
+                with open("classification_results.csv", "rb") as file:
+                    data = file.read()
+                b64 = base64.b64encode(data).decode('utf-8')
+                href = f'<a href="data:file/csv;base64,{b64}" download="classification_results.csv"><button>Download Results</button></a>'
+                st.markdown(href, unsafe_allow_html=True)
+                st.success("Classification results exported successfully!")
+
+        # Display the classification result
+        st.subheader("Classification Result")
+        if classification_result:
+            st.write("The message is classified as:", ", ".join(classification_result))
+
+if __name__ == "__main__":
+    main()
 
 # Add a feedback form
 feedback = st.text_area("Leave your feedback", height=100)
@@ -543,6 +498,11 @@ feedback = st.text_area("Leave your feedback", height=100)
 st.subheader("Contact Us")
 st.write("Email: info@weatherhub.com")
 st.write("Phone: +2348012345678")
+
+# About Us
+about_us_phrase = "<p style='font-size: 16px; margin: 0; padding-top: 5px; text-shadow: 2px 2px 2px silver, 2px 2px 2px purple;'><strong>About Us</strong></p>"
+st.markdown(about_us_phrase, unsafe_allow_html=True)
+st.write("At WeatherHub, we are a passionate team dedicated to providing cutting-edge solutions for companies seeking to unlock future success through climate intelligence. With a deep understanding of the impact weather patterns have on consumer behavior, market trends, and strategic decision-making, we are here to help businesses make informed choices that drive growth and profitability.")
 
 # Add social media icons
 st.subheader("Follow Us")
@@ -569,3 +529,52 @@ with col4:
 
 # Add copyright information and links
 st.write("© 2023 Weather Hub Inc. All rights reserved.")
+
+# Define team members' information
+team_members = [
+    {
+        "name": "Abiodun Adeagbo - CEO",
+        "image_url": "https://drive.google.com/uc?id=1gOmV3fVHgmZ1UfRxbiuGeKovnB87Ud5d",
+    },
+    {
+        "name": "Sandisiwe Mtsha - CTO",
+        "image_url": "https://drive.google.com/uc?id=1y1cBIbUcCaTl7hm6zXMz5FYvJ5Sp0sUK"
+    },
+    {
+        "name": "Andisiwe Jafta - Climate Visionary",
+        "image_url": "https://drive.google.com/uc?id=1NdID53xKtPdpdO6db9M0_oytuZhdH3PR"
+    },
+    {
+        "name": "Pere Ganranwei - Climate Research Expert",
+        "image_url": "https://drive.google.com/uc?id=1glHkFxTxuwaOBQwzRqB0WoZYQsv15_Qx",
+    },
+    {
+        "name": "Lerato Manana - Data Specialist",
+        "image_url": "https://drive.google.com/uc?id=196SLPJi3jTSQe32LlXjTm-kAJ3-dshFH",
+    },
+    {
+        "name": "Kolawole Olawale - Software Engineer",
+        "image_url": "https://drive.google.com/uc?id=1ptZ3j5p_Ps1VcpOrtBaTVE6THpvvosEU",
+    }
+]
+
+# Sidebar button for "Our Team"
+if st.sidebar.button("Our Team"):
+
+    # Create a container for the team members' images and names
+    team_container = "<div style='display: flex; flex-direction: column; align-items: center;'>"
+
+    for member in team_members:
+        # Add each team member's image and name to the container
+        team_container += (
+            "<div style='display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 20px;'>"
+            f"<img src='{member['image_url']}' style='width: 150px; height: 150px; object-fit: cover; border-radius: 50%;'>"
+            f"<div style='font-size: 14px; font-weight: bold; margin-top: 10px;'>{member['name']}</div>"
+            "</div>"
+        )
+
+    # Close the container div element
+    team_container += "</div>"
+
+    # Display the team members' container
+    st.sidebar.markdown(team_container, unsafe_allow_html=True)
