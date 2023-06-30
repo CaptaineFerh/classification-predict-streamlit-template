@@ -490,10 +490,10 @@ if st.button("Classify CSV"):
             st.markdown(href, unsafe_allow_html=True)
             st.success("Classification results exported successfully!")
             
-# Display the classification result
-st.subheader("Classification Result")
-if classification_result:
-    st.write("The message is classified as:", ", ".join(classification_result))
+    # Display the classification result
+    st.subheader("Classification Result")
+    if classification_result:
+        st.write("The message is classified as:", ", ".join(classification_result))
         
 
 # Display expander for "Our Team"
