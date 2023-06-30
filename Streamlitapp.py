@@ -345,53 +345,52 @@ def main():
                 classification_result = "Neutral"
             elif prediction == 2:
                 classification_result = "News"
-
-            st.write("Prediction:", classification_result)
     
     # Preprocessing step
     if message_value and message_value != default_text:
-        st.subheader("Preprocessing")
-        st.write("Original message:", message_value)
+        st.subheader("Preprocessing...")
+        st.write("<span style='color:gold'>*Original message:*</span>", message_value, unsafe_allow_html=True)
         
         # Convert text to lowercase
         message = preprocess_lower(message_value)
-        st.write("Lowercase:", message)
+        st.write("<span style='color:gold'>*Lowercase:*</span>", message, unsafe_allow_html=True)
         
         # Remove stopwords
         message = remove_stopwords(message)
-        st.write("Stopwords removed:", message)
+        st.write("<span style='color:gold'>*Stopwords removed:*</span>", message, unsafe_allow_html=True)
         
         # Remove punctuation
         message = remove_punctuation(message)
-        st.write("Punctuation removed:", message)
+        st.write("<span style='color:gold'>*Punctuation removed:*</span>", message, unsafe_allow_html=True)
         
         # Remove repeating characters
         message = remove_repeating_characters(message)
-        st.write("Repeating characters removed:", message)
+        st.write("<span style='color:gold'>*Repeating characters removed:*</span>", message, unsafe_allow_html=True)
         
         # Remove URLs
         message = remove_urls(message)
-        st.write("URLs removed:", message)
+        st.write("<span style='color:gold'>*URLs removed:*</span>", message, unsafe_allow_html=True)
         
         # Preprocess special characters
         message = preprocess_special_chars(message)
-        st.write("Special characters preprocessed:", message)
+        st.write("<span style='color:gold'>*Special characters preprocessed:*</span>", message, unsafe_allow_html=True)
         
         # Remove leading and trailing whitespaces
         message = preprocess_strip(message)
-        st.write("Whitespaces removed:", message)
+        st.write("<span style='color:gold'>*Whitespaces removed:*</span>", message, unsafe_allow_html=True)
         
         # Tokenize the text
         tokens = preprocess_tokenization(message)
-        st.write("Tokens:", tokens)
+        st.write("<span style='color:gold'>*Tokens:*</span>", tokens, unsafe_allow_html=True)
         
         # Lemmatize the tokens
         lemmatized_text = preprocess_lemmatization(tokens)
-        st.write("Lemmatized text:", lemmatized_text)
+        st.write("<span style='color:gold'>*Lemmatized text:*</span>", lemmatized_text, unsafe_allow_html=True)
+
 
     # Display the classification result
     st.subheader("Classification Result")
-    st.write("The message is classified as:", classification_result)
+    st.markdown('<span style="font-family: Arial; color: silver; font-size: 16px; text-shadow: 2px 2px 2px purple;">The message is classified as: <span style="color: white;">{}</span></span>'.format(classification_result), unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
