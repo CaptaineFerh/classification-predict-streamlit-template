@@ -409,6 +409,7 @@ if st.button("Classify CSV"):
         
         # Preprocess the messages if needed
         preprocessed_messages = []
+        classification_result = []  # Initialize an empty list
         
         for msg in messages:
             st.subheader("Preprocessing")
@@ -454,32 +455,14 @@ if st.button("Classify CSV"):
             prediction = classify_message(lemmatized_text)
             preprocessed_messages.append(prediction)
 
-            st.subheader("Classification Result")
             if prediction == 1:
-                classification_result = "Belief"
+                classification_result.append("Belief")  # Append the classification to the list
             elif prediction == -1:
-                classification_result = "No Belief"
+                classification_result.append("No Belief")
             elif prediction == 0:
-                classification_result = "Neutral"
+                classification_result.append("Neutral")
             elif prediction == 2:
-                classification_result = "News"
-            st.write("The message is classified as:", classification_result)
-            st.write("---")
-        
-        # Map the predictions to the corresponding class labels
-        class_labels = []
-
-        for prediction in preprocessed_messages:
-            if prediction == 1:
-                class_labels.append("Belief")
-            elif prediction == -1:
-                class_labels.append("No Belief")
-            elif prediction == 0:
-                class_labels.append("Neutral")
-            elif prediction == 2:
-                class_labels.append("News")
-
-        df["classification"] = class_labels
+                classification_result.append("News")
 
         st.write("Classification results:")
         st.dataframe(df)
@@ -506,11 +489,12 @@ if st.button("Classify CSV"):
             href = f'<a href="data:file/csv;base64,{b64}" download="classification_results.csv"><button>Download Results</button></a>'
             st.markdown(href, unsafe_allow_html=True)
             st.success("Classification results exported successfully!")
-
+            
 # Display the classification result
 st.subheader("Classification Result")
-st.write("The message is classified as:", classification_result)
-
+if classification_result:
+    st.write("The message is classified as:", ", ".join(classification_result))
+        
 
 # Display expander for "Our Team"
 if st.sidebar.button("Our Team", key="our_team_button"):
